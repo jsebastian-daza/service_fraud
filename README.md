@@ -91,6 +91,39 @@ docker build -t service_fraud .
 
 docker run -it -e AWS_ACCESS_KEY_ID=valor1 -e AWS_SECRET_ACCESS_KEY=valor2 service_fraud
 
+## Optimizaciones realizadas
+
+1. Durante el proceso de obtencion de la informacion de la region y las monedas si responden satisfactoriamente, por medio de la implementacion de la interfaz 'store.go', se guarda la informacion en memoria de la region y la moneda por un lapso de 30 min (configurado por la varia TTL_IN_MINUTES), por lo que actua como una base de datos en memoria que con tiempo de expiracion para poder reducir el consumo de las peticiones y procesamiento.
+
+Esto se traduce en que al momento de ejecutar el proceso y si existe una region ya consultada dentro del rango de tiempo podemos ver un tiempo reducido aproximadamente un ~77%, en caso de que la region sea nueva pero la informacion de las monedas aun es vigente (segundo y tercer caso) podemos ver una optimizacion de tiempo aproximada al ~50%
+
+![Tiempo promedio de las respuestas con y sin la optimizacion](image.png)
+
+2. Para realizar el calculo de las metricas se realiza en otro hilo o en este caso bajo un goroutine, una vez que tenga la informacion para realizar el calculo el proceso para el calculo de estadisticas se realiza de manera concurente con dos propositos.
+
+No ocupar tiempo para la respuesta del usuario 
+Tener lo mas pronto que se pueda la informacion actualizada para cuando el usuario lo consulte
+
+Al realizar esto y debido a que puede llegar a ser un proceso demandante sumado a que dicho proceso al ejecutarse varias veces tenemos que garantizar que no existan errores de concurrencia se definio realizarlo concurrentemente para poder realizar procesos y bloqueos sin afectar el rendimiento general
+
+Al solicitar la informacion esta ya se encuentra lista por lo cual el tiempo necesario es tambien reducido
+
+![Tiempo transcurrido al obtener la informacion](image-1.png)
+
+3. Gracias al primer punto y debido a que usamos api's externas limitamos las llamadas de los servicios al minimo y aprovechando mas la informacion de corta y media vida lo mas posible.
+
+## Visualizacion de los registros
+
+1. Opcion 'traceip'
+
+![Visualizacion de la respuesta](image-2.png)
+
+![Si la ip tiene mas de dos zonas horarias](image-4.png)
+
+2. Opcion 'record'
+
+![Visualizacion de la respuesta 'record'](image-3.png)
+
 ## Contribución
 
 Si deseas contribuir al proyecto:
