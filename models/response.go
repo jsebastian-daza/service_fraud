@@ -29,7 +29,7 @@ func (r *Response) FormatResponse(ipRes IpApiResponse, countryRes CountryRespons
 	}
 
 	str = fmt.Sprintf(`
-		IP: %s,  fechaActual: %s
+		IP: %s,  fecha actual: %s
 			País: %s
 			ISO Code: %s`,
 		ipRes.IP, time.Now().Format("2006-01-02 15:04:05"),
