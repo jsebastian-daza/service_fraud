@@ -21,6 +21,8 @@ Este proyecto proporciona funcionalidades para obtener información sobre direcc
 
 ## Estructura del Proyecto
 
+
+```
 .
 ├── cms
 │   └── command.go             # Ejecucion inicial para validar la entrada, arranque de servicios y ejecucion
@@ -45,6 +47,8 @@ Este proyecto proporciona funcionalidades para obtener información sobre direcc
 │   └── utils.go               # Funciones transversales y definicion de constantes
 ├── main.go                    # Punto de entrada del programa
 └── go.mod                     # Archivo de módulos de Go
+```
+
 
 ## Instalación
 
