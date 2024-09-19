@@ -83,8 +83,9 @@ y algun administrador de contenedores como docker-desktop
 
 y ejecutar los siguientes comandos en la raiz donde se encuentra el archivo 'Dockerfile'
 
-1. Crear la imagen a partir de la configuracion del Dockerfile y el codigo fuente 
-   docker build -t service_fraud .  
+1. Crear la imagen a partir de la configuracion del Dockerfile y el codigo fuente:
+ 
+docker build -t service_fraud .  
 
 2. Crear un contenedor y ejecutar a partir de la imagen generada del paso anterior, Es importante indicar que la obtencion de las claves para el consumo de las api se realizan por medio en este caso se secrets manager por lo que es necesario configurar un usuario con permisos limitados para poder acceder a este servicio
 
